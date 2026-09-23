@@ -14,9 +14,15 @@ Use this repository for project-wide goals, priorities, architecture documentati
 
 Keep source-specific evidence and implementation details in their owning repositories; link to them here.
 
+See [repository responsibilities](docs/repositories.md) for confirmed implementation ownership and the current adapter repository and execution direction.
+
+See [architecture](docs/architecture.md) for local harvesting, validation and import, and live observation retrieval boundaries.
+
 ## Planning
 
-See [ROADMAP.md](ROADMAP.md) for the initial coordination backlog and [docs/README.md](docs/README.md) for documentation conventions.
+Start with the [project overview](docs/project-overview.md) for the broad idea, intended end state, and development stages. See [project goals](docs/goals.md) for current integration outcomes, [ROADMAP.md](ROADMAP.md) for the coordination backlog, and [docs/README.md](docs/README.md) for documentation conventions.
+
+Current work centers on locally run API adapters and file-based integrations. The documents record accepted direction; implementation status and repository assignments are recorded only as evidence becomes available.
 
 ## Repository history
 
