@@ -7,6 +7,7 @@ This repository coordinates NordicIntel, a Sweden-first statistics discovery pro
 - `README.md`: project purpose, repository boundaries, and history.
 - `ROADMAP.md`: project goals and coordination backlog.
 - `docs/`: architecture, goals, and decisions; read `docs/README.md` before adding documents.
+- `.agents/skills/prepare-integration/`: when preparing a new adapter or scraper repository for implementation, follow its `SKILL.md`.
 
 For integration scope or acceptance criteria, read `docs/goals.md`; for runtime, persistence, or adapter boundaries, read `docs/architecture.md`; for repository assignments, read `docs/repositories.md`. Update the authoritative document and link to it from summaries. Distinguish accepted direction from verified implementation.
 
