@@ -12,16 +12,16 @@ The repository supplies JSON Schema Draft 2020-12 files, not an installable runt
 
 ### Verified Schema References
 
-Reviewed on 2026-09-25 against GitHub `main` at [`0689da5`](https://github.com/nordicintel/nordicintel-schemas/commit/0689da53e2e7080d8aa6a8e4dbde0b34ffdb30f8). At that revision, `VERSION` is `2.0.0`, but the [README](https://github.com/nordicintel/nordicintel-schemas/blob/0689da53e2e7080d8aa6a8e4dbde0b34ffdb30f8/README.md) explicitly says it is prepared and unpublished; released `1.0.0` is a separate historical contract. A schema's `v2.0.0` `$id` is not proof of publication. Record the exact consumed revision; refresh this review when adopting newer definitions.
+Reviewed on 2026-09-25 against GitHub `main` at [`77a7a46`](https://github.com/nordicintel/nordicintel-schemas/commit/77a7a4665fea6f3c2be8f286d560b79317f08dd7). At that revision, `VERSION` is `2.0.0`, but the [README](https://github.com/nordicintel/nordicintel-schemas/blob/77a7a4665fea6f3c2be8f286d560b79317f08dd7/README.md) explicitly says it is prepared and unpublished; released `1.0.0` is a separate historical contract. A schema's `v2.0.0` `$id` is not proof of publication. Record the exact consumed revision; refresh this review when adopting newer definitions.
 
 | Reference at the reviewed revision | Authority |
 | --- | --- |
-| [Dataset metadata schema](https://github.com/nordicintel/nordicintel-schemas/blob/0689da53e2e7080d8aa6a8e4dbde0b34ffdb30f8/schemas/dataset-metadata.schema.json) | Validation structure, field meanings, and inline examples |
-| [Dataset metadata guide](https://github.com/nordicintel/nordicintel-schemas/blob/0689da53e2e7080d8aa6a8e4dbde0b34ffdb30f8/docs/DATASET-METADATA.md) | Mapping decisions, semantic invariants, file-backed observations, and complete examples |
-| [Generated property reference](https://github.com/nordicintel/nordicintel-schemas/blob/0689da53e2e7080d8aa6a8e4dbde0b34ffdb30f8/docs/DATASET-METADATA-REFERENCE.md) | Browsable field inventory; the schema controls conditional requirements |
-| [Retrieval contract](https://github.com/nordicintel/nordicintel-schemas/blob/0689da53e2e7080d8aa6a8e4dbde0b34ffdb30f8/docs/RETRIEVAL.md) | Packaging, entry-point discovery, arguments, result, errors, and execution rules for API retrieval functions |
-| [Retrieval result schema](https://github.com/nordicintel/nordicintel-schemas/blob/0689da53e2e7080d8aa6a8e4dbde0b34ffdb30f8/schemas/retrieval-result.schema.json) | Validation structure of the observation fragment returned by retrieval |
-| [Provider schema](https://github.com/nordicintel/nordicintel-schemas/blob/0689da53e2e7080d8aa6a8e4dbde0b34ffdb30f8/schemas/provider.schema.json) | Only `provider_code` is required and stable; other Provider content is deliberately open |
+| [Dataset metadata schema](https://github.com/nordicintel/nordicintel-schemas/blob/77a7a4665fea6f3c2be8f286d560b79317f08dd7/schemas/dataset-metadata.schema.json) | Validation structure, field meanings, and inline examples |
+| [Dataset metadata guide](https://github.com/nordicintel/nordicintel-schemas/blob/77a7a4665fea6f3c2be8f286d560b79317f08dd7/docs/DATASET-METADATA.md) | Mapping decisions, semantic invariants, observation content rules (what `value`/`status` may contain, substitution notes), and complete examples |
+| [Generated property reference](https://github.com/nordicintel/nordicintel-schemas/blob/77a7a4665fea6f3c2be8f286d560b79317f08dd7/docs/DATASET-METADATA-REFERENCE.md) | Browsable field inventory; the schema controls conditional requirements |
+| [Retrieval contract](https://github.com/nordicintel/nordicintel-schemas/blob/77a7a4665fea6f3c2be8f286d560b79317f08dd7/docs/RETRIEVAL.md) | Packaging, entry-point discovery, arguments, result, errors, and execution rules for API retrieval functions |
+| [Retrieval result schema](https://github.com/nordicintel/nordicintel-schemas/blob/77a7a4665fea6f3c2be8f286d560b79317f08dd7/schemas/retrieval-result.schema.json) | Validation structure of the observation fragment returned by retrieval |
+| [Provider schema](https://github.com/nordicintel/nordicintel-schemas/blob/77a7a4665fea6f3c2be8f286d560b79317f08dd7/schemas/provider.schema.json) | Only `provider_code` is required and stable; other Provider content is deliberately open |
 
 ## Adapter Repository and Execution Direction
 
@@ -42,7 +42,7 @@ Repository ownership for the separate validation/import workflow, production cat
 | Repository | Responsibility | Provider codes | Verified status |
 | --- | --- | --- | --- |
 | [nordicintel/bra-scraper](https://github.com/nordicintel/bra-scraper) (private) | Local discovery, collection, and processing of BRÅ statistical spreadsheets, including metadata, observations, and file tracking information | Not yet recorded | Created 2026-09-25; configured Python skeleton with PyPI publishing disabled. Scraping and processing are not implemented. |
-| [nordicintel/sdb-adapter](https://github.com/nordicintel/sdb-adapter) (private) | Socialstyrelsen SDB metadata harvesting and live retrieval function | `socialstyrelsen` | Created 2026-09-23. Metadata harvesting (15 `sv` and 5 `en` Dataset documents) and the separately installable retrieval function are implemented at [`c9a56c0`](https://github.com/nordicintel/sdb-adapter/commit/c9a56c021f06693a7b1de5341824bd08617a6489), conforming to schemas `0689da5`; see its [verification evidence](https://github.com/nordicintel/sdb-adapter/blob/c9a56c021f06693a7b1de5341824bd08617a6489/docs/evidence.md). No milestone coordination issue is linked yet. |
+| [nordicintel/sdb-adapter](https://github.com/nordicintel/sdb-adapter) (private) | Socialstyrelsen SDB metadata harvesting and live retrieval function | `socialstyrelsen` | Created 2026-09-23. Metadata harvesting (15 `sv` and 5 `en` Dataset documents) and the separately installable retrieval function are implemented at [`344212d`](https://github.com/nordicintel/sdb-adapter/commit/344212d51a28b848288e2beb90b7a5432bfa225e), conforming to schemas `77a7a46`; see its [verification evidence](https://github.com/nordicintel/sdb-adapter/blob/344212d51a28b848288e2beb90b7a5432bfa225e/docs/evidence.md). No milestone coordination issue is linked yet. |
 
 Record each integration's `provider_code` values here so codes and entry points do not collide; provider and adapter namespace names follow the [dataset metadata guide](#verified-schema-references). The BRÅ product inventory remains to be established under the [BRÅ milestone](goals.md#brå-spreadsheet-milestone). Other API adapter repository assignments remain pending.
 
