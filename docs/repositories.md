@@ -8,7 +8,7 @@
 
 The dataset metadata model defines JSON-stat2 metadata-only output from NordicIntel harvesters, scrapers, and wrappers. It defines neither upstream API responses nor NordicIntel public API responses, identifiers, or presentation. Source integrations must produce metadata conforming to this shared model.
 
-The repository supplies JSON Schema Draft 2020-12 files, not an installable runtime package, validator, generated models, or integration test suite. Consumers own validation and may consume pinned schema files; schema authorship remains in `nordicintel-schemas`. This is the only confirmed implementation repository assignment recorded here so far. Individual adapter repository assignments remain to be documented.
+The repository supplies JSON Schema Draft 2020-12 files, not an installable runtime package, validator, generated models, or integration test suite. Consumers own validation and may consume pinned schema files; schema authorship remains in `nordicintel-schemas`. Source integration assignments are recorded below as repositories are confirmed.
 
 ### Verified Schema References
 
@@ -34,6 +34,14 @@ Hosted workers or processes for harvesting and refresh are deferred until furthe
 This direction establishes repository boundaries and the initial execution environment. It does not claim that the adapter repositories or local workflows have already been implemented, nor does it permanently rule out hosted execution.
 
 Repository ownership for the separate validation/import workflow, production catalog, non-API observation storage, website, and public API remains unassigned here. Research repositories listed in the README should not be assumed to own these components.
+
+## Confirmed Source Integration Repositories
+
+| Repository | Responsibility | Verified status |
+| --- | --- | --- |
+| [nordicintel/bra-scraper](https://github.com/nordicintel/bra-scraper) (private) | Local discovery, collection, and processing of BRÅ statistical spreadsheets, including metadata, observations, and file tracking information | Created 2026-09-25; configured Python skeleton with PyPI publishing disabled. Scraping and processing are not implemented. |
+
+The BRÅ product inventory remains to be established under the [BRÅ milestone](goals.md#brå-spreadsheet-milestone). API adapter repository assignments remain pending.
 
 ## Adding Repository Assignments
 
