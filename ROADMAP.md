@@ -11,7 +11,8 @@ Current work focuses on independently runnable local adapter repositories. Hoste
 - Confirm each adapter's owning repository and link its implementation issues from [repository responsibilities](docs/repositories.md).
 - Select representative provider instances for shared API types and enumerate the BRÅ products and pages in scope.
 - Define the standalone retrieval contract and packaging approach, including caller-supplied HTTP sessions and normalized results.
-- Define local artifact formats and the separate validation/import contract, including required file information.
+- Record the schema revision consumed by each integration, using the [verified schema references](docs/repositories.md#verified-schema-references); distinguish prepared definitions from published releases.
+- Define local artifact packaging, processed observation and file-tracking formats, and the separate validation/import contract. Reuse the established metadata document shape and include its consumer semantic checks.
 - Review implementation evidence, then agree the order and dependencies of the integration milestones below.
 
 These items identify unresolved work; they do not impose a strict sequence on independent adapter development.

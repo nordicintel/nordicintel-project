@@ -30,7 +30,7 @@ Each row is a separate milestone requiring a repeatable local metadata harvestin
 
 For each milestone, demonstrate:
 
-- Discovery and local metadata output validated against the dataset metadata model owned by `nordicintel-schemas`.
+- Discovery and local metadata output conforming to the [shared metadata profile](architecture.md#shared-schemas), with format checks and consumer semantic checks passing.
 - A successful repeat metadata harvest with documented source-specific update behavior.
 - Separate installation/import of retrieval functionality without requiring the harvesting functionality.
 - Live retrieval of representative selections using a caller-supplied `aiohttp.ClientSession`, verified against upstream observations.
@@ -45,7 +45,7 @@ Completion requires:
 
 - An explicit inventory of the statistical products and pages covered.
 - Reproducible file discovery without manually assembling download links on each run.
-- Local shared-schema dataset metadata and processed, queryable observations suitable for the separate import workflow.
+- Local metadata-only dataset documents conforming to the shared profile, plus separate processed, queryable observations suitable for the import workflow; keep metadata `value` empty.
 - Processing verified against representative source workbooks, including their dimensions, values, units, and explanatory notes where present.
 - Required file information: source page and download addresses, available web descriptions and comments, last-checked and last-fetched times, and release or version identifiers where available.
 - Provenance linking processed observations to the corresponding file information; retaining original files locally is optional.
@@ -55,11 +55,13 @@ Confirm actual file formats during implementation; the workflow must handle the 
 
 ## Shared Acceptance Criteria
 
+Record the exact schema revision used and validate each available supported language independently. Follow the [validation responsibilities](architecture.md#validation-and-import), including checks that JSON Schema alone cannot express. Use known provider retrieval URLs and preserve identity and namespace semantics; do not treat public identifiers or observation-response formats as defined by the metadata schema.
+
 Define change tracking separately for each source. For a small collection of annual CSV files, checking whether a new version has been published can be sufficient. More detailed tracking should address a demonstrated source requirement.
 
 Each integration must document its discovery method, update signal, rerun behavior, and validation procedure. Verify representative results against upstream data and make retrieval or processing failures visible. Preserve source provenance and distinguish missing values from zero values.
 
-Completion evidence belongs with the implementation: reproducible commands, automated checks where appropriate, and recorded results from initial and repeat runs. Link that evidence from the milestone's coordination issue.
+Completion evidence belongs with the implementation: reproducible commands, automated checks where appropriate, and recorded results from initial and repeat runs, including schema/semantic validation results. Link that evidence from the milestone's coordination issue.
 
 ## Scope Decisions Still Needed
 

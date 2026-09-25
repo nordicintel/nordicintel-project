@@ -6,9 +6,20 @@
 | --- | --- |
 | [nordicintel/nordicintel-schemas](https://github.com/nordicintel/nordicintel-schemas) | Common JSON Schema definitions and accompanying documentation, especially the dataset metadata model. |
 
-The dataset metadata model defines the output format for NordicIntel scrapers and harvesters. It does not define the response formats of upstream providers' official APIs. Source integrations must produce metadata conforming to this shared model.
+The dataset metadata model defines JSON-stat2 metadata-only output from NordicIntel harvesters, scrapers, and wrappers. It defines neither upstream API responses nor NordicIntel public API responses, identifiers, or presentation. Source integrations must produce metadata conforming to this shared model.
 
-Keep schema definitions and their documentation in `nordicintel-schemas`; link to them from adapter repositories rather than maintaining independent copies. This is the only confirmed implementation repository assignment recorded here so far. Individual adapter repository assignments remain to be documented.
+The repository supplies JSON Schema Draft 2020-12 files, not an installable runtime package, validator, generated models, or integration test suite. Consumers own validation and may consume pinned schema files; schema authorship remains in `nordicintel-schemas`. This is the only confirmed implementation repository assignment recorded here so far. Individual adapter repository assignments remain to be documented.
+
+### Verified Schema References
+
+Reviewed on 2026-09-25 against GitHub `main` at [`83092e1`](https://github.com/nordicintel/nordicintel-schemas/commit/83092e1baaa2647f172d184bed55ff5774fc3a3f). At that revision, `VERSION` is `2.0.0`, but the [README](https://github.com/nordicintel/nordicintel-schemas/blob/83092e1baaa2647f172d184bed55ff5774fc3a3f/README.md) explicitly says it is prepared and unpublished; released `1.0.0` is a separate historical contract. A schema's `v2.0.0` `$id` is not proof of publication. Record the exact consumed revision; refresh this review when adopting newer definitions.
+
+| Reference at the reviewed revision | Authority |
+| --- | --- |
+| [Dataset metadata schema](https://github.com/nordicintel/nordicintel-schemas/blob/83092e1baaa2647f172d184bed55ff5774fc3a3f/schemas/dataset-metadata.schema.json) | Validation structure, field meanings, and inline examples |
+| [Dataset metadata guide](https://github.com/nordicintel/nordicintel-schemas/blob/83092e1baaa2647f172d184bed55ff5774fc3a3f/docs/DATASET-METADATA.md) | Mapping decisions, semantic invariants, and complete example |
+| [Generated property reference](https://github.com/nordicintel/nordicintel-schemas/blob/83092e1baaa2647f172d184bed55ff5774fc3a3f/docs/DATASET-METADATA-REFERENCE.md) | Browsable field inventory; the schema controls conditional requirements |
+| [Provider schema](https://github.com/nordicintel/nordicintel-schemas/blob/83092e1baaa2647f172d184bed55ff5774fc3a3f/schemas/provider.schema.json) | Only `provider_code` is required and stable; other Provider content is deliberately open |
 
 ## Adapter Repository and Execution Direction
 
