@@ -6,20 +6,22 @@
 | --- | --- |
 | [nordicintel/nordicintel-schemas](https://github.com/nordicintel/nordicintel-schemas) | Common JSON Schema definitions and accompanying documentation, especially the dataset metadata model. |
 
-The dataset metadata model defines JSON-stat2 metadata-only output from NordicIntel harvesters, scrapers, and wrappers. It defines neither upstream API responses nor NordicIntel public API responses, identifiers, or presentation. Source integrations must produce metadata conforming to this shared model.
+The dataset metadata model defines JSON-stat2 output from NordicIntel harvesters, scrapers, and wrappers: metadata-only documents, or documents with observations parsed from provider files. The retrieval contract and result schema define the separately installable function API adapters provide and the observation fragment it returns. None of these define upstream API responses or NordicIntel public API responses, identifiers, or presentation. Source integrations must produce metadata conforming to the shared model.
 
 The repository supplies JSON Schema Draft 2020-12 files, not an installable runtime package, validator, generated models, or integration test suite. Consumers own validation and may consume pinned schema files; schema authorship remains in `nordicintel-schemas`. Source integration assignments are recorded below as repositories are confirmed.
 
 ### Verified Schema References
 
-Reviewed on 2026-09-25 against GitHub `main` at [`83092e1`](https://github.com/nordicintel/nordicintel-schemas/commit/83092e1baaa2647f172d184bed55ff5774fc3a3f). At that revision, `VERSION` is `2.0.0`, but the [README](https://github.com/nordicintel/nordicintel-schemas/blob/83092e1baaa2647f172d184bed55ff5774fc3a3f/README.md) explicitly says it is prepared and unpublished; released `1.0.0` is a separate historical contract. A schema's `v2.0.0` `$id` is not proof of publication. Record the exact consumed revision; refresh this review when adopting newer definitions.
+Reviewed on 2026-09-25 against GitHub `main` at [`0689da5`](https://github.com/nordicintel/nordicintel-schemas/commit/0689da53e2e7080d8aa6a8e4dbde0b34ffdb30f8). At that revision, `VERSION` is `2.0.0`, but the [README](https://github.com/nordicintel/nordicintel-schemas/blob/0689da53e2e7080d8aa6a8e4dbde0b34ffdb30f8/README.md) explicitly says it is prepared and unpublished; released `1.0.0` is a separate historical contract. A schema's `v2.0.0` `$id` is not proof of publication. Record the exact consumed revision; refresh this review when adopting newer definitions.
 
 | Reference at the reviewed revision | Authority |
 | --- | --- |
-| [Dataset metadata schema](https://github.com/nordicintel/nordicintel-schemas/blob/83092e1baaa2647f172d184bed55ff5774fc3a3f/schemas/dataset-metadata.schema.json) | Validation structure, field meanings, and inline examples |
-| [Dataset metadata guide](https://github.com/nordicintel/nordicintel-schemas/blob/83092e1baaa2647f172d184bed55ff5774fc3a3f/docs/DATASET-METADATA.md) | Mapping decisions, semantic invariants, and complete example |
-| [Generated property reference](https://github.com/nordicintel/nordicintel-schemas/blob/83092e1baaa2647f172d184bed55ff5774fc3a3f/docs/DATASET-METADATA-REFERENCE.md) | Browsable field inventory; the schema controls conditional requirements |
-| [Provider schema](https://github.com/nordicintel/nordicintel-schemas/blob/83092e1baaa2647f172d184bed55ff5774fc3a3f/schemas/provider.schema.json) | Only `provider_code` is required and stable; other Provider content is deliberately open |
+| [Dataset metadata schema](https://github.com/nordicintel/nordicintel-schemas/blob/0689da53e2e7080d8aa6a8e4dbde0b34ffdb30f8/schemas/dataset-metadata.schema.json) | Validation structure, field meanings, and inline examples |
+| [Dataset metadata guide](https://github.com/nordicintel/nordicintel-schemas/blob/0689da53e2e7080d8aa6a8e4dbde0b34ffdb30f8/docs/DATASET-METADATA.md) | Mapping decisions, semantic invariants, file-backed observations, and complete examples |
+| [Generated property reference](https://github.com/nordicintel/nordicintel-schemas/blob/0689da53e2e7080d8aa6a8e4dbde0b34ffdb30f8/docs/DATASET-METADATA-REFERENCE.md) | Browsable field inventory; the schema controls conditional requirements |
+| [Retrieval contract](https://github.com/nordicintel/nordicintel-schemas/blob/0689da53e2e7080d8aa6a8e4dbde0b34ffdb30f8/docs/RETRIEVAL.md) | Packaging, entry-point discovery, arguments, result, errors, and execution rules for API retrieval functions |
+| [Retrieval result schema](https://github.com/nordicintel/nordicintel-schemas/blob/0689da53e2e7080d8aa6a8e4dbde0b34ffdb30f8/schemas/retrieval-result.schema.json) | Validation structure of the observation fragment returned by retrieval |
+| [Provider schema](https://github.com/nordicintel/nordicintel-schemas/blob/0689da53e2e7080d8aa6a8e4dbde0b34ffdb30f8/schemas/provider.schema.json) | Only `provider_code` is required and stable; other Provider content is deliberately open |
 
 ## Adapter Repository and Execution Direction
 
@@ -37,11 +39,12 @@ Repository ownership for the separate validation/import workflow, production cat
 
 ## Confirmed Source Integration Repositories
 
-| Repository | Responsibility | Verified status |
-| --- | --- | --- |
-| [nordicintel/bra-scraper](https://github.com/nordicintel/bra-scraper) (private) | Local discovery, collection, and processing of BRÅ statistical spreadsheets, including metadata, observations, and file tracking information | Created 2026-09-25; configured Python skeleton with PyPI publishing disabled. Scraping and processing are not implemented. |
+| Repository | Responsibility | Provider codes | Verified status |
+| --- | --- | --- | --- |
+| [nordicintel/bra-scraper](https://github.com/nordicintel/bra-scraper) (private) | Local discovery, collection, and processing of BRÅ statistical spreadsheets, including metadata, observations, and file tracking information | Not yet recorded | Created 2026-09-25; configured Python skeleton with PyPI publishing disabled. Scraping and processing are not implemented. |
+| [nordicintel/sdb-adapter](https://github.com/nordicintel/sdb-adapter) (private) | Socialstyrelsen SDB metadata harvesting and live retrieval function | `socialstyrelsen` | Created 2026-09-23; configured Python skeleton with archived legacy SDB implementations as reference material. Harvesting and retrieval are not implemented. |
 
-The BRÅ product inventory remains to be established under the [BRÅ milestone](goals.md#brå-spreadsheet-milestone). API adapter repository assignments remain pending.
+Record each integration's `provider_code` values here so codes and entry points do not collide; provider and adapter namespace names follow the [dataset metadata guide](#verified-schema-references). The BRÅ product inventory remains to be established under the [BRÅ milestone](goals.md#brå-spreadsheet-milestone). Other API adapter repository assignments remain pending.
 
 ## Adding Repository Assignments
 

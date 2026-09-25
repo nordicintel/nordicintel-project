@@ -32,10 +32,10 @@ For each milestone, demonstrate:
 
 - Discovery and local metadata output conforming to the [shared metadata profile](architecture.md#shared-schemas), with format checks and consumer semantic checks passing.
 - A successful repeat metadata harvest with documented source-specific update behavior.
-- Separate installation/import of retrieval functionality without requiring the harvesting functionality.
-- Live retrieval of representative selections using a caller-supplied `aiohttp.ClientSession`, verified against upstream observations.
+- Retrieval conforming to the [retrieval contract](architecture.md#retrieval-contract-and-packaging): a plain install without the `harvest` extra imports it, and a `nordicintel.retrieval` entry point exists for each supported `provider_code`.
+- Live retrieval of representative selections using a caller-supplied `aiohttp.ClientSession`, verified against upstream observations. Returned fragments pass the retrieval result schema and its consumer checks.
 
-Record tested sources, requests, expected results, and unsupported behavior. Verify normalized results against the retrieval contract once specified; the dataset metadata schema is not an observation response schema. Supporting an API type does not establish coverage of every provider using it.
+Record tested sources, requests, expected results, and unsupported behavior. Supporting an API type does not establish coverage of every provider using it.
 
 ## BRÅ Spreadsheet Milestone
 
@@ -45,7 +45,7 @@ Completion requires:
 
 - An explicit inventory of the statistical products and pages covered.
 - Reproducible file discovery without manually assembling download links on each run.
-- Local metadata-only dataset documents conforming to the shared profile, plus separate processed, queryable observations suitable for the import workflow; keep metadata `value` empty.
+- Local Dataset documents conforming to the shared profile, with observations parsed into `value` (and provider flags into `status`) as defined for file-backed output, suitable for the import workflow.
 - Processing verified against representative source workbooks, including their dimensions, values, units, and explanatory notes where present.
 - Required file information: source page and download addresses, available web descriptions and comments, last-checked and last-fetched times, and release or version identifiers where available.
 - Provenance linking processed observations to the corresponding file information; retaining original files locally is optional.
@@ -55,18 +55,18 @@ Confirm actual file formats during implementation; the workflow must handle the 
 
 ## Shared Acceptance Criteria
 
-Record the exact schema revision used and validate each available supported language independently. Follow the [validation responsibilities](architecture.md#validation-and-import), including checks that JSON Schema alone cannot express. Use known provider retrieval URLs and preserve identity and namespace semantics; do not treat public identifiers or observation-response formats as defined by the metadata schema.
+Record the exact schema revision used in the implementation repository; that pin is authoritative for the integration, and newer revisions are adopted deliberately. Validate each available supported language independently. Follow the [validation responsibilities](architecture.md#validation-and-import), including checks that JSON Schema alone cannot express. Use known provider retrieval URLs and preserve identity and namespace semantics; do not treat public identifiers or public API responses as defined by the schemas.
 
 Define change tracking separately for each source. For a small collection of annual CSV files, checking whether a new version has been published can be sufficient. More detailed tracking should address a demonstrated source requirement.
 
 Each integration must document its discovery method, update signal, rerun behavior, and validation procedure. Verify representative results against upstream data and make retrieval or processing failures visible. Preserve source provenance and distinguish missing values from zero values.
 
-Completion evidence belongs with the implementation: reproducible commands, automated checks where appropriate, and recorded results from initial and repeat runs, including schema/semantic validation results. Link that evidence from the milestone's coordination issue.
+Completion evidence belongs with the implementation: reproducible commands, automated checks where appropriate, and recorded results from initial and repeat runs, including schema/semantic validation results. Commit a concise evidence summary in the implementation repository; raw run output may stay untracked. Link that evidence from the milestone's coordination issue.
 
 ## Scope Decisions Still Needed
 
 Select representative provider instances for shared API types and enumerate the BRÅ products included in the milestone. Resolve these before claiming complete coverage. Revisit scope when a source requires a new access method or cannot support the agreed validation; record the limitation rather than silently reducing coverage.
 
-Define retrieval packaging and contracts and local artifact/import contracts as tracked in the [architecture's open decisions](architecture.md#open-implementation-decisions). Production deployment and hosted harvest scheduling are not completion requirements for local integration milestones.
+Define local artifact, file-tracking, and import contracts as tracked in the [architecture's open decisions](architecture.md#open-implementation-decisions). Production deployment and hosted harvest scheduling are not completion requirements for local integration milestones.
 
 This phase does not require a finished user interface or integration of every Swedish statistics provider. Implementation and source-specific research stay in their owning repositories; this repository records goals and cross-repository coordination.

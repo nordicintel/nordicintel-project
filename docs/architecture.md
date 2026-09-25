@@ -27,13 +27,13 @@ Use one repository per adapter. Each owns the complete local workflow: source di
 
 For API sources, the same repository also owns a standardized, standalone observation retrieval function. Metadata harvesting and retrieval stay together because they share source-specific knowledge and implementation context.
 
-The repository must allow the retrieval function to be installed and imported separately from harvesting functionality. The live backend uses only this retrieval functionality. The packaging mechanism remains to be specified.
+The repository must allow the retrieval function to be installed and imported separately from harvesting functionality. The live backend uses only this retrieval functionality. Packaging and the function interface follow the [retrieval contract decision](#retrieval-contract-and-packaging).
 
 ### Shared Schemas
 
 Use the [verified schema references](repositories.md#verified-schema-references) for the authoritative definitions and reviewed release status. They describe harvester/scraper/wrapper output, not a runtime package or the public API contract.
 
-The dataset profile is JSON-stat2 metadata-only: `version: "2.0"`, `class: "dataset"`, `value: []`, `label`, ordered dimension `id`, actual category counts in `size`, complete `dimension` metadata, and `extension.nordicintel`. Empty observations do not shrink the dimensions or their sizes. This applies to both API and file-based integrations; processed file observations are a separate artifact.
+The dataset profile is JSON-stat2: `version: "2.0"`, `class: "dataset"`, required `value`, `label`, ordered dimension `id`, actual category counts in `size`, complete `dimension` metadata, and `extension.nordicintel`. API adapters harvest metadata-only documents with `value: []`; empty observations do not shrink the dimensions or their sizes. File-based integrations parse observations into the same Dataset format, with populated `value` and optional `status`, for NordicIntel to store and serve.
 
 Emit one complete document per available supported language (`sv` or `en`). `extension.nordicintel` requires `provider_code`, the provider's opaque, case-sensitive `dataset_code`, and `language`. Preserve codes and source text without slugifying identifiers, manufacturing translations, or silently falling back between languages. Root `id` orders dimensions; harvesters do not construct public `dataset_id` values.
 
@@ -47,7 +47,7 @@ A separate workflow validates local artifacts and imports metadata into the prod
 
 Validate with Draft 2020-12 and format checking enabled. Consumers also enforce the schema guide's semantic invariants: dimension membership and category counts, unique contiguous index positions, valid category and hierarchy references, role assignments, elimination references, namespace ownership, and resource scope/duplication. Schema defaults do not insert values. Upstream CI checks tooling and the generated reference; it does not validate harvested outputs for consumers.
 
-The metadata document shape is defined. Storage technologies, artifact packaging, processed observation and operational tracking formats, and exact import interfaces remain open.
+The Dataset document shape, including file-backed observations, is defined. Storage technologies, artifact packaging, operational tracking formats, and exact import interfaces remain open.
 
 ### Production Catalog and Backend
 
@@ -55,7 +55,22 @@ The metadata catalog supports discovery and supplies the source context needed f
 
 The backend supplies an `aiohttp.ClientSession` to API retrieval functions, enabling centralized HTTP behavior and execution control. Functions use the supplied session; session lifecycle belongs to the caller.
 
-The shared retrieval contract must cover dataset identification, observation selection, and normalized results. Exact arguments, result schemas, and error contracts are deferred to a dedicated specification. Normalization preserves source dimensions, units, definitions, and caveats; cross-source harmonization is a separate future concern.
+Retrieval results preserve source dimensions, units, definitions, and caveats; cross-source harmonization is a separate future concern.
+
+### Retrieval Contract and Packaging
+
+**Status:** Accepted, 2026-09-25. Affects every API adapter repository, the future backend, and [nordicintel-schemas](https://github.com/nordicintel/nordicintel-schemas), which holds the exact contract and result schema listed in the [verified schema references](repositories.md#verified-schema-references).
+
+**Context:** The backend needs one way to call every API adapter, and adapters could not be implemented while arguments, results, and packaging were deferred. The contract should add as little shared machinery and maintenance as possible. Harvesting has no shared interface contract; its output is the Dataset documents the backend exposes.
+
+**Decision:**
+
+- Each adapter is one distribution. A plain install provides the retrieval function, depending on `aiohttp`; harvesting dependencies sit behind a `harvest` extra. The backend discovers functions through the `nordicintel.retrieval` entry-point group, keyed by `provider_code`.
+- The backend always passes its `aiohttp.ClientSession`, `provider_code`, `dataset_code`, `language`, the observation selection (dimension codes mapped to category codes), and the harvested `data_url` and `metadata_url`, which may be null. An adapter needing more declares JSON Pointers into its harvested Dataset documents in `REQUIRED_METADATA`, and the backend passes the resolved values.
+- The function returns a JSON-stat2 observation fragment: `id`, `size`, category indices, `value`, and optional `status`, with explicit dimension and category order. The backend assembles the served Dataset from the fragment and its catalog metadata.
+- Built-in exceptions classify failures: `ValueError` for rejected or unsplittable selections and `LookupError` for datasets gone upstream; anything else is an upstream failure. The adapter handles pagination and request splitting; the backend owns retries, rate limiting, caching, and timeouts.
+
+**Consequences:** Adapters stay small and share no runtime package. Retrieval receives only values from the catalog document, so harvesting must emit everything retrieval relies on. Changing the arguments or result format requires a new schema collection version.
 
 ## Data Flows
 
@@ -85,9 +100,8 @@ Root dataset `updated` means the provider-reported modification date, not a fetc
 
 ## Open Implementation Decisions
 
-- Separate installation and packaging of retrieval functionality within each adapter repository.
-- Exact retrieval signatures, result and error contracts, and local artifact packaging; the dataset metadata document shape is already defined.
-- Processed file observations and operational file-tracking records, including their links to metadata.
+- Local artifact packaging; the Dataset document shape and the retrieval contract are defined.
+- Operational file-tracking records, including their links to Dataset documents.
 - Import validation, update semantics, and production storage technologies.
 
 Resolve these in the relevant implementation repositories and link their contracts here. The [Project Overview](project-overview.md) describes the broader product direction and development stages.
